@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeSurfer - Achievements</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            max-width: 1200px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: white;
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .status-left {
+            font-size: 18px;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 3px;
+            align-items: end;
+        }
+
+        .bar {
+            width: 4px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .bar:nth-child(1) {
+            height: 5px;
+        }
+
+        .bar:nth-child(2) {
+            height: 7px;
+        }
+
+        .bar:nth-child(3) {
+            height: 9px;
+        }
+
+        .bar:nth-child(4) {
+            height: 11px;
+        }
+
+        .wifi-icon,
+        .battery-icon {
+            width: 20px;
+            height: 14px;
+            background: #000;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .wifi-icon::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 5px;
+            width: 3px;
+            height: 5px;
+            background: #000;
+            border-radius: 0 1px 1px 0;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .back-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #4facfe;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 20px;
+        }
+
+        .back-btn:hover {
+            background: #4facfe;
+            color: white;
+        }
+
+        .back-btn::before {
+            content: '‹';
+            font-size: 24px;
+            font-weight: bold;
+            color: #4facfe;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover::before {
+            color: white;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .progress-circle {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .progress-ring {
+            width: 100px;
+            height: 100px;
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-bg {
+            fill: none;
+            stroke: #e9ecef;
+            stroke-width: 10;
+        }
+
+        .progress-ring-fill {
+            fill: none;
+            stroke: #4CAF50;
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 56.6;
+            /* 80% progress */
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .progress-info h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .progress-info p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* Achievement Cards */
+        .achievement-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: var(--card-color);
+            transition: width 0.5s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .achievement-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        .achievement-card.studious {
+            --card-color: #4facfe;
+        }
+
+        .achievement-card.quickie {
+            --card-color: #feca57;
+        }
+
+        .achievement-card.ambitious {
+            --card-color: #48dbfb;
+        }
+
+        .achievement-card.perfectionist {
+            --card-color: #ff9ff3;
+        }
+
+        .achievement-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .achievement-icon.studious {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .achievement-icon.quickie {
+            background: linear-gradient(135deg, #feca57 0%, #ff9a56 100%);
+        }
+
+        .achievement-icon.ambitious {
+            background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%);
+        }
+
+        .achievement-icon.perfectionist {
+            background: linear-gradient(135deg, #ff9ff3 0%, #f368e0 100%);
+        }
+
+        .achievement-content {
+            flex: 1;
+        }
+
+        .achievement罦achievement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .achievement-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 3px;
+        }
+
+        .star {
+            font-size: 16px;
+            color: #ddd;
+        }
+
+        .star.filled {
+            color: #ffc107;
+        }
+
+        .achievement-description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px 0;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 12px;
+        }
+
+        .nav-item:hover {
+            background: rgba(79, 172, 254, 0.1);
+        }
+
+        .nav-item.active {
+            color: #4facfe;
+        }
+
+        .nav-icon {
+            width: 30px;
+            height: 30px;
+            background: #666;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .nav-item.active .nav-icon {
+            background: #4facfe;
+        }
+
+        .nav-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .nav-item.active .nav-label {
+            color: #4facfe;
+        }
+
+        .nav-icon.learn::before {
+            content: '📚';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+
+        .nav-icon.search::before {
+            content: '🔍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+
+        .nav-icon.achievement::before {
+            content: '🏆';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+
+        .nav-icon.profile::before {
+            content: '👤';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+
+        /* Animation */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .achievement-card {
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+
+        .achievement-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .achievement-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .achievement-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .achievement-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        /* Scrollbar styling */
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #4facfe;
+            border-radius: 3px;
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #0084ff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                border-radius: 15px;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .progress-circle {
+                width: 80px;
+                height: 80px;
+            }
+
+            .progress-ring {
+                width: 80px;
+                height: 80px;
+            }
+
+            .progress-ring-bg,
+            .progress-ring-fill {
+                stroke-width: 8;
+            }
+
+            .progress-text {
+                font-size: 16px;
+            }
+
+            .achievement-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            .achievement-title {
+                font-size: 18px;
+            }
+
+            .achievement-description {
+                font-size: 14px;
+            }
+
+            .nav-item {
+                padding: 8px 15px;
+            }
+
+            .nav-icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .nav-label {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="back-btn" onclick="window.location.href='Cods.html'"></div>
+            <div class="header-title">Achievements</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-container">
+                    <div class="progress-circle">
+                        <svg class="progress-ring" width="100" height="100">
+                            <circle class="progress-ring-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="progress-ring-fill" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="progress-text">80%</div>
+                    </div>
+                    <div class="progress-info">
+                        <h3>Total Achievements: 20</h3>
+                        <p>Great job, John! Complete your achievements now</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Cards -->
+            <div class="achievement-card studious">
+                <div class="achievement-icon studious">🏆</div>
+                <div class="achievement-content">
+                    <div class="achievement-header">
+                        <div class="achievement-title">Studious</div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="achievement-description">
+                        You have completed this courses 10 times.
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievement-card quickie">
+                <div class="achievement-icon quickie">⚡</div>
+                <div class="achievement-content">
+                    <div class="achievement-header">
+                        <div class="achievement-title">Quick Quack</div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="achievement-description">
+                        You have completed this exercise in less than 3 minutes, 10 times.
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievement-card ambitious">
+                <div class="achievement-icon ambitious">🎯</div>
+                <div class="achievement-content">
+                    <div class="achievement-header">
+                        <div class="achievement-title">Ambitious</div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="achievement-description">
+                        You have achieved 15 milestones.
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievement-card perfectionist">
+                <div class="achievement-icon perfectionist">⭐</div>
+                <div class="achievement-content">
+                    <div class="achievement-header">
+                        <div class="achievement-title">Perfectionist</div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="achievement-description">
+                        You have scored 100% on exercises 20 times.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            const backBtn = document.querySelector('.back-btn');
+            backBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                backBtn.style.transform = 'scale(1)';
+            }, 150);
+            console.log('Navigating back...');
+            alert('Back button clicked! In a real app, this would navigate to the previous page.');
+        }
+
+        function animateProgress() {
+            const progressFill = document.querySelector('.progress-ring-fill');
+            const targetProgress = 80;
+            const circumference = 2 * Math.PI * 45;
+            const offset = circumference - (targetProgress / 100) * circumference;
+            progressFill.style.strokeDashoffset = circumference;
+            setTimeout(() => {
+                progressFill.style.strokeDashoffset = offset;
+            }, 500);
+        }
+
+        function initializeAchievements() {
+            const cards = document.querySelectorAll('.achievement-card');
+            cards.forEach((card, index) => {
+                card.addEventListener('click', function () {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    const title = this.querySelector('.achievement-title').textContent;
+                    console.log(`Achievement clicked: ${title}`);
+                });
+
+                card.addEventListener('mouseenter', function () {
+                    const icon = this.querySelector('.achievement-icon');
+                    icon.style.transform = 'scale(1.1) rotate(5deg)';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    const icon = this.querySelector('.achievement-icon');
+                    icon.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+        }
+
+        function initializeNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                    const label = this.querySelector('.nav-label').textContent;
+                    console.log(`Navigation: ${label} clicked`);
+                });
+            });
+        }
+
+        function animateStars() {
+            const starRatings = document.querySelectorAll('.star-rating');
+            starRatings.forEach(rating => {
+                const stars = rating.querySelectorAll('.star');
+                stars.forEach((star, index) => {
+                    if (star.classList.contains('filled')) {
+                        setTimeout(() => {
+                            star.style.animation = 'starTwinkle 0.5s ease-in-out';
+                        }, index * 100);
+                    }
+                });
+            });
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes starTwinkle {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+            }
+            .achievement-icon {
+                transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            animateProgress();
+            initializeAchievements();
+            initializeNavigation();
+            setTimeout(animateStars, 1000);
+        });
+
+        document.querySelector('.content').style.scrollBehavior = 'smooth';
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Programming Learning Platform</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="nav-brand">
+          <button class="back-btn" onclick="window.location.href='homepage2.html'">←</button>
+          <h2>CodeSurfer</h2>
+        </div>
+        <nav class="nav-menu">
+          <a href="#" class="nav-link active">Learn</a>
+          <a class="nav-link" onclick="window.location.href='achievement.html'">Achievement</a>
+          <a class="nav-link" onclick="window.location.href='profile_page.html'">Profile</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Screen 1: Language Selection -->
+      <section class="screen active" id="screen1">
+        <div class="container">
+          <div class="hero-section">
+            <div class="clouds-bg">
+              <div class="cloud cloud-1">☁</div>
+              <div class="cloud cloud-2">☁</div>
+              <div class="cloud cloud-3">☁</div>
+              <div class="cloud cloud-4">☁</div>
+            </div>
+
+            <div class="hero-content">
+              <div class="hero-text">
+                <h1>Which Language</h1>
+                <p>would you like to learn?</p>
+              </div>
+
+              <div class="language-selector">
+                <select id="languageSelect" class="language-dropdown">
+                  <option value="">Select Language</option>
+                  <option value="c">C</option>
+                  <option value="cpp">C++</option>
+                  <option value="python">Python</option>
+                </select>
+              </div>
+
+              <div class="methods-section">
+                <div class="methods-label">Methods:</div>
+                <div class="method-tags">
+                  <span class="tag">#Visual</span>
+                  <span class="tag">#Audio</span>
+                  <span class="tag">#Card</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-grid">
+            <div class="left-column">
+              <div class="pro-tips">
+                <div class="tip-header">
+                  <div class="avatar">👨‍💻</div>
+                  <div class="tip-info">
+                    <div class="name">Programming Expert</div>
+                    <div class="quote">"Persistence and consistency are key in learning programming. Keep practicing and evolving."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="right-column">
+              <div class="previous-courses">
+                <h3>Previous Language Courses</h3>
+                <div class="course-grid">
+                  <div class="course-item" onclick="window.location.href='cpp_introduction.html'">
+                    <div class="course-icon cpp-icon">📘</div>
+                    <div class="course-info">
+                      <div class="course-name">C++</div>
+                      <div class="course-desc">Introduction</div>
+                    </div>
+                    <div class="arrow">→</div>
+                  </div>
+                  <div class="course-item">
+                    <div class="course-icon c-icon">📗</div>
+                    <div class="course-info">
+                      <div class="course-name">C</div>
+                      <div class="course-desc">Variables</div>
+                    </div>
+                    <div class="arrow">→</div>
+                  </div>
+                  <div class="course-item">
+                    <div class="course-icon syntax-icon">🌲</div>
+                    <div class="course-info">
+                      <div class="course-name">C</div>
+                      <div class="course-desc">Syntax</div>
+                    </div>
+                    <div class="arrow">→</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: C Courses -->
+      <section class="screen" id="screenC">
+        <div class="container">
+          <div class="hero-section">
+            <div class="clouds-bg">
+              <div class="cloud cloud-1">☁</div>
+              <div class="cloud cloud-2">☁</div>
+              <div class="cloud cloud-3">☁</div>
+              <div class="cloud cloud-4">☁</div>
+            </div>
+
+            <div class="hero-content">
+              <div class="hero-text">
+                <h1>Which courses</h1>
+                <p>would you like to learn?</p>
+              </div>
+
+              <div class="language-selector">
+                <select id="languageSelectC" class="language-dropdown">
+                  <option value="c" selected>C</option>
+                  <option value="cpp">C++</option>
+                  <option value="python">Python</option>
+                </select>
+              </div>
+
+              <div class="methods-section">
+                <div class="methods-label">Methods:</div>
+                <div class="method-tags">
+                  <span class="tag">#Visual</span>
+                  <span class="tag">#Audio</span>
+                  <span class="tag">#Card</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="courses-section">
+            <h2>C Programming Courses</h2>
+            <div class="courses-grid">
+              <div class="course-card" onclick="window.location.href='c_introduction.html'">
+                <div class="course-icon intro-icon">📘</div>
+                <div class="course-info">
+                  <div class="course-name">C</div>
+                  <div class="course-desc">Introduction</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon syntax-icon">🌲</div>
+                <div class="course-info">
+                  <div class="course-name">C</div>
+                  <div class="course-desc">Syntax</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon comment-icon">💬</div>
+                <div class="course-info">
+                  <div class="course-name">C</div>
+                  <div class="course-desc">Comments</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon variable-icon">🔢</div>
+                <div class="course-info">
+                  <div class="course-name">C</div>
+                  <div class="course-desc">Variables</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon data-icon">💎</div>
+                <div class="course-info">
+                  <div class="course-name">C</div>
+                  <div class="course-desc">Data Types</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon const-icon">🔐</div>
+                <div class="course-info">
+                  <div class="course-name">C</div>
+                  <div class="course-desc">Constants</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: C++ Courses -->
+      <section class="screen" id="screenCpp">
+        <div class="container">
+          <div class="hero-section">
+            <div class="clouds-bg">
+              <div class="cloud cloud-1">☁</div>
+              <div class="cloud cloud-2">☁</div>
+              <div class="cloud cloud-3">☁</div>
+              <div class="cloud cloud-4">☁</div>
+            </div>
+      
+            <div class="hero-content">
+              <div class="hero-text">
+                <h1>Which courses</h1>
+                <p>would you like to learn?</p>
+              </div>
+      
+              <div class="language-selector">
+                <select id="languageSelectCpp" class="language-dropdown">
+                  <option value="c">C</option>
+                  <option value="cpp" selected>C++</option>
+                  <option value="python">Python</option>
+                </select>
+              </div>
+      
+              <div class="methods-section">
+                <div class="methods-label">Methods:</div>
+                <div class="method-tags">
+                  <span class="tag">#Visual</span>
+                  <span class="tag">#Audio</span>
+                  <span class="tag">#Card</span>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <div class="courses-section">
+            <h2>C++ Programming Courses</h2>
+            <div class="courses-grid">
+              <div class="course-card" onclick="window.location.href='cpp_introduction.html'">
+                <div class="course-icon intro-icon">📘</div>
+                <div class="course-info">
+                  <div class="course-name">C++</div>
+                  <div class="course-desc">Introduction</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon syntax-icon">🌲</div>
+                <div class="course-info">
+                  <div class="course-name">C++</div>
+                  <div class="course-desc">Syntax</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon comment-icon">💬</div>
+                <div class="course-info">
+                  <div class="course-name">C++</div>
+                  <div class="course-desc">Comments</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon variable-icon">🔢</div>
+                <div class="course-info">
+                  <div class="course-name">C++</div>
+                  <div class="course-desc">Variables</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon data-icon">💎</div>
+                <div class="course-info">
+                  <div class="course-name">C++</div>
+                  <div class="course-desc">Data Types</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon const-icon">🔐</div>
+                <div class="course-info">
+                  <div class="course-name">C++</div>
+                  <div class="course-desc">Constants</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+            </div>
+          </div>
+      
+          <div class="forum-icon" onclick="window.location.href='cpp_forum_page.html'"
+            style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background-color: #007bff; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+            💬
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: Python Courses -->
+      <section class="screen" id="screenPython">
+        <div class="container">
+          <div class="hero-section">
+            <div class="clouds-bg">
+              <div class="cloud cloud-1">☁</div>
+              <div class="cloud cloud-2">☁</div>
+              <div class="cloud cloud-3">☁</div>
+              <div class="cloud cloud-4">☁</div>
+            </div>
+
+            <div class="hero-content">
+              <div class="hero-text">
+                <h1>Which courses</h1>
+                <p>would you like to learn?</p>
+              </div>
+
+              <div class="language-selector">
+                <select id="languageSelectPython" class="language-dropdown">
+                  <option value="c">C</option>
+                  <option value="cpp">C++</option>
+                  <option value="python" selected>Python</option>
+                </select>
+              </div>
+
+              <div class="methods-section">
+                <div class="methods-label">Methods:</div>
+                <div class="method-tags">
+                  <span class="tag">#Visual</span>
+                  <span class="tag">#Audio</span>
+                  <span class="tag">#Card</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="courses-section">
+            <h2>Python Programming Courses</h2>
+            <div class="courses-grid">
+              <div class="course-card">
+                <div class="course-icon intro-icon">📘</div>
+                <div class="course-info">
+                  <div class="course-name">Python</div>
+                  <div class="course-desc">Introduction</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon syntax-icon">🌲</div>
+                <div class="course-info">
+                  <div class="course-name">Python</div>
+                  <div class="course-desc">Syntax</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon comment-icon">💬</div>
+                <div class="course-info">
+                  <div class="course-name">Python</div>
+                  <div class="course-desc">Comments</div>
+                  <div class="course-progress">Beginner Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon variable-icon">🔢</div>
+                <div class="course-info">
+                  <div class="course-name">Python</div>
+                  <div class="course-desc">Variables</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon data-icon">💎</div>
+                <div class="course-info">
+                  <div class="course-name">Python</div>
+                  <div class="course-desc">Data Types</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+              <div class="course-card">
+                <div class="course-icon const-icon">🔐</div>
+                <div class="course-info">
+                  <div class="course-name">Python</div>
+                  <div class="course-desc">Constants</div>
+                  <div class="course-progress">Intermediate Level</div>
+                </div>
+                <div class="arrow">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const languageSelect = document.getElementById("languageSelect");
+      const languageSelectC = document.getElementById("languageSelectC");
+      const languageSelectCpp = document.getElementById("languageSelectCpp");
+      const languageSelectPython = document.getElementById("languageSelectPython");
+      const screens = document.querySelectorAll(".screen");
+
+      function handleLanguageChange(selectedValue) {
+        // Hide all screens with fade effect
+        screens.forEach((screen) => {
+          screen.classList.remove("active");
+          screen.style.opacity = "0";
+        });
+
+        // Show appropriate screen based on selection
+        setTimeout(() => {
+          if (selectedValue === "c") {
+            document.getElementById("screenC").classList.add("active");
+            document.getElementById("screenC").style.opacity = "1";
+            languageSelectC.value = "c";
+            languageSelectCpp.value = "c";
+            languageSelectPython.value = "c";
+          } else if (selectedValue === "cpp") {
+            document.getElementById("screenCpp").classList.add("active");
+            document.getElementById("screenCpp").style.opacity = "1";
+            languageSelectC.value = "cpp";
+            languageSelectCpp.value = "cpp";
+            languageSelectPython.value = "cpp";
+          } else if (selectedValue === "python") {
+            document.getElementById("screenPython").classList.add("active");
+            document.getElementById("screenPython").style.opacity = "1";
+            languageSelectC.value = "python";
+            languageSelectCpp.value = "python";
+            languageSelectPython.value = "python";
+          } else {
+            document.getElementById("screen1").classList.add("active");
+            document.getElementById("screen1").style.opacity = "1";
+            languageSelectC.value = "c";
+            languageSelectCpp.value = "cpp";
+            languageSelectPython.value = "python";
+          }
+        }, 200);
+      }
+
+      languageSelect.addEventListener("change", function () {
+        handleLanguageChange(this.value);
+      });
+
+      languageSelectC.addEventListener("change", function () {
+        handleLanguageChange(this.value);
+      });
+
+      languageSelectCpp.addEventListener("change", function () {
+        handleLanguageChange(this.value);
+      });
+
+      languageSelectPython.addEventListener("change", function () {
+        handleLanguageChange(this.value);
+      });
+
+      // Back navigation function
+      function goBack() {
+        screens.forEach((screen) => {
+          screen.classList.remove("active");
+          screen.style.opacity = "0";
+        });
+
+        setTimeout(() => {
+          document.getElementById("screen1").classList.add("active");
+          document.getElementById("screen1").style.opacity = "1";
+          languageSelect.value = "";
+          languageSelectC.value = "c";
+          languageSelectCpp.value = "cpp";
+          languageSelectPython.value = "python";
+        }, 200);
+      }
+
+      // Initialize opacity
+      document.addEventListener("DOMContentLoaded", function () {
+        screens.forEach((screen) => {
+          if (!screen.classList.contains("active")) {
+            screen.style.opacity = "0";
+          } else {
+            screen.style.opacity = "1";
+          }
+        });
+      });
+
+      // Method tag interactions
+      document.querySelectorAll(".tag").forEach((tag) => {
+        tag.addEventListener("click", function () {
+          // Remove active class from all tags in the same container
+          const container = this.parentElement;
+          container.querySelectorAll(".tag").forEach((t) => t.classList.remove("active"));
+
+          // Add active class to clicked tag
+          this.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>

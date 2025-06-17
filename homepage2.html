@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeSurfer - Premium Programming Learning Platform</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        overflow-x: hidden;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #fff, #f0f8ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: #f0f8ff;
+        transform: translateY(-2px);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #f0f8ff;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-align: center;
+        padding: 120px 2rem 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.3;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        to {
+          text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+        }
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(45deg, #ff6b6b, #feca57);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s;
+      }
+
+      .cta-button:hover::before {
+        left: 100%;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+      }
+
+      /* Features Section */
+      .features {
+        padding: 80px 2rem;
+        background: #f8f9fa;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 2rem;
+        color: white;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .feature-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      /* Pricing Section */
+      .pricing {
+        padding: 80px 2rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .pricing-card {
+        background: white;
+        border-radius: 25px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+      }
+
+      .pricing-card.popular {
+        transform: scale(1.05);
+        border: 3px solid #4facfe;
+      }
+
+      .pricing-card.popular::before {
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, #ff6b6b, #feca57);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+      }
+
+      .plan-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .plan-price {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #4facfe;
+        margin-bottom: 0.5rem;
+      }
+
+      .plan-period {
+        color: #666;
+        margin-bottom: 2rem;
+      }
+
+      .plan-features {
+        list-style: none;
+        margin-bottom: 2rem;
+      }
+
+      .plan-features li {
+        padding: 0.5rem 0;
+        color: #555;
+        position: relative;
+      }
+
+      .plan-features li::before {
+        content: "✓";
+        position: absolute;
+        left: -20px;
+        color: #4caf50;
+        font-weight: bold;
+      }
+
+      .plan-button {
+        width: 100%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .plan-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      }
+
+      .popular .plan-button {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+      }
+
+      /* Stats Section */
+      .stats {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 2rem;
+        text-align: center;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .stat-item {
+        padding: 1rem;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(45deg, #fff, #f0f8ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-label {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      /* Footer */
+      .footer {
+        background: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #bdc3c7;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #4facfe;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #34495e;
+        padding-top: 1rem;
+        color: #bdc3c7;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 3rem;
+        border-radius: 25px;
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+        position: relative;
+        animation: modalSlideIn 0.4s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #aaa;
+        transition: color 0.3s ease;
+      }
+
+      .close:hover {
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #4facfe;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .pricing-card.popular {
+          transform: none;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <nav class="nav">
+        <div class="logo">CodeSurfer</div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Master Programming Skills</h1>
+        <p>Interactive quizzes, real-time coding challenges, and personalized learning paths to accelerate your programming journey</p>
+        <a onclick="window.location.href='Cods.html'" class="cta-button">Start Learning Today</a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <h2 class="section-title">Why Choose CodeSurfer?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Interactive Quizzes</h3>
+            <p>Test your knowledge with hands-on coding quizzes that adapt to your skill level and provide instant feedback.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Real-time Feedback</h3>
+            <p>Get immediate responses to your code with detailed explanations and suggestions for improvement.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Progress Tracking</h3>
+            <p>Monitor your learning journey with detailed analytics and personalized study recommendations.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Community Support</h3>
+            <p>Connect with fellow learners, share knowledge, and get help from experienced developers.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>Certification</h3>
+            <p>Earn industry-recognized certificates upon completing courses and demonstrate your skills to employers.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>Regular Updates</h3>
+            <p>Access fresh content weekly with new challenges, exercises, and the latest programming trends.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+      <div class="container">
+        <h2 class="section-title">Choose Your Plan</h2>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h3 class="plan-name">Basic</h3>
+            <div class="plan-price">Rp29.000</div>
+            <div class="plan-period">per month</div>
+            <ul class="plan-features">
+              <li>Access to basic quizzes</li>
+              <li>5 programming languages</li>
+              <li>Progress tracking</li>
+              <li>Mobile app access</li>
+            </ul>
+            <button class="plan-button" onclick="selectPlan('Basic', 9)">Get Started</button>
+          </div>
+
+          <div class="pricing-card popular">
+            <div class="popular-badge">Most Popular</div>
+            <h3 class="plan-name">Pro</h3>
+            <div class="plan-price">Rp99.000</div>
+            <div class="plan-period">per month</div>
+            <ul class="plan-features">
+              <li>All Basic features</li>
+              <li>Advanced coding challenges</li>
+              <li>10+ programming languages</li>
+              <li>Live coding sessions</li>
+              <li>Priority support</li>
+              <li>Certification programs</li>
+            </ul>
+            <button class="plan-button" onclick="selectPlan('Pro', 29)">Choose Pro</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" id="users">50K+</div>
+            <div class="stat-label">Active Users</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="courses">200+</div>
+            <div class="stat-label">Courses Available</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="satisfaction">4.9</div>
+            <div class="stat-label">User Rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#about">About Us</a>
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+          <a href="#support">Support</a>
+          <a href="#careers">Careers</a>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 CodeSurfer. All rights reserved. Made with ❤️ for developers.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="subscriptionModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 style="margin-bottom: 2rem; color: #333">Complete Your Subscription</h2>
+        <form id="subscriptionForm">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="card">Card Number</label>
+            <input type="text" id="card" name="card" placeholder="1234 5678 9012 3456" required />
+          </div>
+          <div style="display: flex; gap: 1rem">
+            <div class="form-group" style="flex: 1">
+              <label for="expiry">Expiry Date</label>
+              <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required />
+            </div>
+            <div class="form-group" style="flex: 1">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" name="cvv" placeholder="123" required />
+            </div>
+          </div>
+          <button type="submit" class="plan-button" style="margin-top: 1rem">
+            <span id="paymentText">Subscribe Now</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let selectedPlan = "";
+      let selectedPrice = 0;
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Plan selection
+      function selectPlan(planName, price) {
+        selectedPlan = planName;
+        selectedPrice = price;
+
+        document.getElementById("paymentText").textContent = `Subscribe to ${planName} - $${price}/month`;
+        document.getElementById("subscriptionModal").style.display = "block";
+      }
+
+      // Modal functionality
+      const modal = document.getElementById("subscriptionModal");
+      const closeBtn = document.getElementsByClassName("close")[0];
+
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      // Form submission
+      document.getElementById("subscriptionForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Simulate payment processing
+        const submitBtn = document.querySelector("#subscriptionForm button");
+        const originalText = submitBtn.innerHTML;
+
+        submitBtn.innerHTML = "Processing...";
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+          alert(`Congratulations! You've successfully subscribed to the ${selectedPlan} plan for $${selectedPrice}/month. Welcome to CodeSurfer!`);
+          modal.style.display = "none";
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+
+          // Reset form
+          document.getElementById("subscriptionForm").reset();
+        }, 2000);
+      });
+
+      // Animated counter for stats
+      function animateCounter(elementId, target, suffix = "") {
+        const element = document.getElementById(elementId);
+        const increment = target / 100;
+        let current = 0;
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+
+          if (elementId === "satisfaction") {
+            element.textContent = current.toFixed(1) + suffix;
+          } else if (elementId === "completion") {
+            element.textContent = Math.floor(current) + suffix;
+          } else {
+            element.textContent = Math.floor(current) + suffix;
+          }
+        }, 20);
+      }
+
+      // Trigger animations when stats section is visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter("users", 50, "K+");
+            animateCounter("courses", 200, "+");
+            animateCounter("completion", 95, "%");
+            animateCounter("satisfaction", 4.9, "");
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+
+      observer.observe(document.querySelector(".stats"));
+
+      // Add some interactivity to pricing cards
+      document.querySelectorAll(".pricing-card").forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-15px) scale(1.02)";
+        });
+
+        card.addEventListener("mouseleave", function () {
+          if (this.classList.contains("popular")) {
+            this.style.transform = "scale(1.05)";
+          } else {
+            this.style.transform = "translateY(0) scale(1)";
+          }
+        });
+      });
+
+      // Header background change on scroll
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector(".header");
+        if (window.scrollY > 100) {
+          header.style.background = "rgba(102, 126, 234, 0.95)";
+        } else {
+          header.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+        }
+      });
+    </script>
+  </body>
+</html>

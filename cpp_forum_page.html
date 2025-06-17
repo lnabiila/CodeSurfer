@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Learning Forum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .forum-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .forum-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) translateX(-2px);
+        }
+
+        .forum-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .forum-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .forum-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .forum-content {
+            padding: 30px;
+        }
+
+        .post-form {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .category-select {
+            background: white;
+            cursor: pointer;
+        }
+
+        .post-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .discussions-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4A90E2;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tab.active {
+            background: #4A90E2;
+            color: white;
+            border-color: #4A90E2;
+        }
+
+        .filter-tab:hover:not(.active) {
+            background: #e9ecef;
+        }
+
+        .discussion-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .discussion-card:hover {
+            border-color: #4A90E2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .discussion-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .discussion-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .category-tag {
+            background: #4A90E2;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-tag.beginner { background: #28a745; }
+        .category-tag.intermediate { background: #ffc107; color: #333; }
+        .category-tag.advanced { background: #dc3545; }
+        .category-tag.help { background: #17a2b8; }
+
+        .discussion-content {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .discussion-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .stat-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stat-item-small {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .forum-container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .forum-header {
+                padding: 20px;
+            }
+
+            .back-btn {
+                left: 20px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .forum-title {
+                font-size: 24px;
+            }
+
+            .forum-stats {
+                gap: 20px;
+            }
+
+            .forum-content {
+                padding: 20px;
+            }
+
+            .discussion-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .discussion-stats {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="forum-container">
+        <div class="forum-header">
+            <button class="back-btn" onclick="window.location.href='Cods.html'">←</button>
+            <h1 class="forum-title">C++ Learning Forum</h1>
+            <p class="forum-subtitle">Discuss concepts, share knowledge, and get help from the community</p>
+            <div class="forum-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalPosts">24</span>
+                    <span class="stat-label">Posts</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="activeUsers">12</span>
+                    <span class="stat-label">Active Users</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalReplies">67</span>
+                    <span class="stat-label">Replies</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="forum-content">
+            <!-- New Post Form -->
+            <div class="post-form">
+                <h3 style="margin-bottom: 20px; color: #333;">Start a New Discussion</h3>
+                <form id="postForm">
+                    <div class="form-group">
+                        <label class="form-label" for="postTitle">Title</label>
+                        <input type="text" id="postTitle" class="form-input" placeholder="What would you like to discuss?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="postCategory">Category</label>
+                        <select id="postCategory" class="form-input category-select" required>
+                            <option value="">Select a category</option>
+                            <option value="beginner">Beginner Questions</option>
+                            <option value="intermediate">Intermediate Topics</option>
+                            <option value="advanced">Advanced Concepts</option>
+                            <option value="help">Need Help</option>
+                            <option value="general">General Discussion</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="postContent">Content</label>
+                        <textarea id="postContent" class="form-input form-textarea" placeholder="Share your thoughts, questions, or code examples..." required></textarea>
+                    </div>
+                    <button type="submit" class="post-btn">Post Discussion</button>
+                </form>
+            </div>
+
+            <!-- Discussions Section -->
+            <div class="discussions-section">
+                <h2 class="section-title">Recent Discussions</h2>
+                
+                <div class="filter-tabs">
+                    <div class="filter-tab active" data-filter="all">All</div>
+                    <div class="filter-tab" data-filter="beginner">Beginner</div>
+                    <div class="filter-tab" data-filter="intermediate">Intermediate</div>
+                    <div class="filter-tab" data-filter="advanced">Advanced</div>
+                    <div class="filter-tab" data-filter="help">Help</div>
+                </div>
+
+                <div id="discussionsList">
+                    <!-- Sample discussions will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample discussion data
+        const discussions = [
+            {
+                id: 1,
+                title: "Understanding Pointers vs References",
+                content: "Can someone explain the key differences between pointers and references in C++? I'm getting confused about when to use each one.",
+                author: "Alex_Dev",
+                category: "beginner",
+                replies: 8,
+                likes: 12,
+                timestamp: "2 hours ago",
+                isNew: true
+            },
+            {
+                id: 2,
+                title: "Best Practices for Memory Management",
+                content: "What are the modern C++ best practices for memory management? Should I still use new/delete or focus on smart pointers?",
+                author: "CodeMaster",
+                category: "intermediate",
+                replies: 15,
+                likes: 23,
+                timestamp: "5 hours ago",
+                isNew: false
+            },
+            {
+                id: 3,
+                title: "Template Metaprogramming Techniques",
+                content: "Exploring advanced template metaprogramming. Let's discuss SFINAE, concepts, and compile-time computations.",
+                author: "TemplateGuru",
+                category: "advanced",
+                replies: 6,
+                likes: 18,
+                timestamp: "1 day ago",
+                isNew: false
+            },
+            {
+                id: 4,
+                title: "Help with Segmentation Fault",
+                content: "Getting segmentation fault in my program. Here's my code: [code snippet]. Can someone help me debug this?",
+                author: "NewbieCoder",
+                category: "help",
+                replies: 4,
+                likes: 5,
+                timestamp: "3 hours ago",
+                isNew: true
+            },
+            {
+                id: 5,
+                title: "C++20 Features You Should Know",
+                content: "Let's discuss the most important C++20 features that every developer should learn. Concepts, ranges, coroutines...",
+                author: "ModernCpp",
+                category: "intermediate",
+                replies: 12,
+                likes: 28,
+                timestamp: "6 hours ago",
+                isNew: false
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderDiscussions() {
+            const discussionsList = document.getElementById('discussionsList');
+            const filteredDiscussions = currentFilter === 'all' 
+                ? discussions 
+                : discussions.filter(d => d.category === currentFilter);
+
+            if (filteredDiscussions.length === 0) {
+                discussionsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💭</div>
+                        <h3>No discussions found</h3>
+                        <p>Be the first to start a discussion in this category!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            discussionsList.innerHTML = filteredDiscussions.map(discussion => `
+                <div class="discussion-card">
+                    <div class="discussion-header">
+                        <div>
+                            <h3 class="discussion-title">${discussion.title} ${discussion.isNew ? '🆕' : ''}</h3>
+                            <div class="discussion-meta">
+                                <span>by ${discussion.author}</span>
+                                <span>•</span>
+                                <span>${discussion.timestamp}</span>
+                            </div>
+                        </div>
+                        <div class="category-tag ${discussion.category}">${discussion.category}</div>
+                    </div>
+                    <div class="discussion-content">${discussion.content}</div>
+                    <div class="discussion-stats">
+                        <div class="stat-group">
+                            <div class="stat-item-small">
+                                <span>💬</span>
+                                <span>${discussion.replies} replies</span>
+                            </div>
+                            <div class="stat-item-small">
+                                <span>👍</span>
+                                <span>${discussion.likes} likes</span>
+                            </div>
+                        </div>
+                        <div class="user-avatar">${discussion.author.charAt(0)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderDiscussions();
+            });
+        });
+
+        // Form submission
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const content = document.getElementById('postContent').value;
+            
+            if (title && category && content) {
+                const newDiscussion = {
+                    id: discussions.length + 1,
+                    title: title,
+                    content: content,
+                    author: "You",
+                    category: category,
+                    replies: 0,
+                    likes: 0,
+                    timestamp: "Just now",
+                    isNew: true
+                };
+                
+                discussions.unshift(newDiscussion);
+                
+                // Update stats
+                document.getElementById('totalPosts').textContent = parseInt(document.getElementById('totalPosts').textContent) + 1;
+                
+                // Clear form
+                this.reset();
+                
+                // Re-render discussions
+                renderDiscussions();
+                
+                // Show success message
+                alert('Your discussion has been posted successfully!');
+            }
+        });
+
+        // Initialize the page
+        renderDiscussions();
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const activeUsersElement = document.getElementById('activeUsers');
+            const currentCount = parseInt(activeUsersElement.textContent);
+            activeUsersElement.textContent = Math.max(8, Math.min(25, currentCount + Math.floor(Math.random() * 3) - 1));
+        }, 10000);
+    </script>
+</body>
+</html>

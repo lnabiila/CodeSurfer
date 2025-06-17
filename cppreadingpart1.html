@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .learning-page {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: 600px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .learning-page:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+        }
+
+        .back-btn::before {
+            content: '←';
+            font-size: 18px;
+            color: #6c757d;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* Main page styles */
+        .part-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .part-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .part-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #7cb342, #8bc34a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .part-icon::before {
+            content: '📚';
+            font-size: 24px;
+        }
+
+        .part-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .part-info p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7cb342, #8bc34a);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Content page styles */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cpp-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cpp-logo::before {
+            content: 'C++';
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .cpp-logo::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        .hero-image {
+            width: 120px;
+            height: 120px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23f8f9fa" rx="20"/><circle cx="100" cy="100" r="60" fill="%236c757d" opacity="0.3"/><text x="100" y="110" text-anchor="middle" font-size="20" fill="%23495057">👨‍💻</text></svg>') center/cover;
+            border-radius: 20px;
+            margin: 0 auto 30px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .next-btn::after {
+            content: '→';
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .next-btn:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Animations */
+        .learning-page {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .learning-page:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .learning-page:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Part 1 Content Page -->
+        <div class="learning-page">
+            <div class="header">
+                <div class="back-btn" onclick="window.location.href='cppreading.html'"></div>
+                <h1 class="header-title">Introduction C++ Part 1</h1>
+            </div>
+            <div class="content">
+                <div class="hero-section">
+                    <div class="cpp-logo"></div>
+                    <h2 class="section-title">What is C++?</h2>
+                </div>
+
+                <div class="content-text">
+                    C++ is a cross-platform language that can be used to create high-performance applications.
+                </div>
+
+                <div class="content-text">
+                    C++ was developed by Bjarne Stroustrup, as an extension to the C language.
+                </div>
+
+                <div class="content-text">
+                    C++ gives programmers a high level of control over system resources and memory.
+                </div>
+
+                <div class="content-text">
+                    The language was updated 4 major times in 2011, 2014, 2017, and 2020 to C++11, C++14, C++17, C++20.
+                </div>
+
+                <button class="next-btn" onclick="window.location.href='cppreadingpart2.html'">Next Part</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactive functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add click handlers for part items
+            const partItems = document.querySelectorAll('.part-item');
+            partItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Add click handlers for next buttons
+            const nextBtns = document.querySelectorAll('.next-btn');
+            nextBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    this.style.transform = 'translateY(0) scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Add click handlers for back buttons
+            const backBtns = document.querySelectorAll('.back-btn');
+            backBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    this.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

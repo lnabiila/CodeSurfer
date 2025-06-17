@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C++ Syntax Quiz</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .quiz-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      padding: 30px;
+      position: relative;
+      animation: slideIn 0.5s ease-out;
+      min-height: 600px;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .progress-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+      gap: 10px;
+    }
+
+    .progress-dot {
+      width: 40px;
+      height: 8px;
+      border-radius: 4px;
+      background: #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .progress-dot.active {
+      background: #4A90E2;
+    }
+
+    .progress-dot.completed {
+      background: #4A90E2;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #999;
+      cursor: pointer;
+      transition: color 0.3s;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .question-title {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .code-card {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 25px 0;
+      font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .code-line {
+      color: #333;
+      margin: 3px 0;
+    }
+
+    .keyword {
+      color: #0066cc;
+      font-weight: bold;
+    }
+
+    .string {
+      color: #d73a49;
+    }
+
+    .operator {
+      color: #005cc5;
+    }
+
+    .number {
+      color: #005cc5;
+    }
+
+    .comment {
+      color: #6a737d;
+      font-style: italic;
+    }
+
+    .answers-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .answer-btn {
+      background: #4A90E2;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .answer-btn:hover:not(:disabled) {
+      background: #357abd;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    .answer-btn.correct {
+      background: #5cb85c;
+      animation: correctPulse 0.6s ease;
+    }
+
+    .answer-btn.incorrect {
+      background: #d9534f;
+      animation: incorrectShake 0.6s ease;
+    }
+
+    @keyframes correctPulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes incorrectShake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      75% {
+        transform: translateX(5px);
+      }
+    }
+
+    .answer-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+
+    .feedback-container {
+      margin: 25px 0;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feedback-message {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .feedback-message.correct {
+      color: #5cb85c;
+    }
+
+    .feedback-message.incorrect {
+      color: #d9534f;
+    }
+
+    .feedback-answer {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      background: #f8f9fa;
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 300px;
+    }
+
+    .next-question-btn {
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 40px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 20px auto;
+      display: none;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .next-question-btn:hover {
+      background: #555;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .quiz-complete {
+      text-align: center;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .quiz-complete h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+
+    .score {
+      font-size: 24px;
+      color: #4A90E2;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .restart-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .restart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 20px;
+      }
+
+      .answers-container {
+        grid-template-columns: 1fr;
+      }
+
+      .question-title {
+        font-size: 18px;
+      }
+
+      .progress-dot {
+        width: 30px;
+        height: 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <button class="close-btn" onclick="window.location.href='cpp_exercise.html'">✕</button>
+
+    <div class="progress-container" id="progressContainer"></div>
+
+    <div id="quizContent">
+      <h1 class="question-title" id="questionTitle">Which header file is needed for input/output operations?</h1>
+
+      <div class="code-card" id="codeCard" style="display: none"></div>
+
+      <div class="answers-container" id="answersContainer">
+        <button class="answer-btn" onclick="checkAnswer(this, 0)">#include &lt;stdio.h&gt;</button>
+        <button class="answer-btn" onclick="checkAnswer(this, 1)">#include &lt;iostream&gt;</button>
+        <button class="answer-btn" onclick="checkAnswer(this, 2)">#include &lt;string&gt;</button>
+        <button class="answer-btn" onclick="checkAnswer(this, 3)">#include &lt;vector&gt;</button>
+      </div>
+
+      <div class="feedback-container" id="feedbackContainer">
+        <div class="feedback-message" id="feedbackMessage"></div>
+        <div class="feedback-answer" id="feedbackAnswer"></div>
+      </div>
+
+      <button class="next-question-btn" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION</button>
+    </div>
+
+    <div id="quizComplete" class="quiz-complete" style="display: none">
+      <h2>🎉 Quiz Completed!</h2>
+      <div class="score" id="finalScore">Your Score: 0/10</div>
+      <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+      <button class="restart-btn" onclick="window.location.href='cpp_exercisepart2.html'">Next Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Which header file is needed for input/output operations?",
+        code: null,
+        answers: ["#include <stdio.h>", "#include <iostream>", "#include <string>", "#include <vector>"],
+        correct: 1,
+        explanation: "<iostream> is the standard header for C++ input/output operations.",
+      },
+      {
+        question: "What is the correct syntax for a C++ comment?",
+        code: null,
+        answers: ["/* comment */", "// comment", "# comment", "Both A and B"],
+        correct: 3,
+        explanation: "C++ supports both single-line (//) and multi-line (/* */) comments.",
+      },
+      {
+        question: "Which keyword is used to define a constant in C++?",
+        code: null,
+        answers: ["final", "const", "constant", "static"],
+        correct: 1,
+        explanation: "The 'const' keyword is used to declare constants in C++.",
+      },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    function createProgressDots() {
+      const container = document.getElementById('progressContainer');
+      container.innerHTML = '';
+
+      for (let i = 0; i < questions.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'progress-dot';
+        if (i < currentQuestion) {
+          dot.classList.add('completed');
+        } else if (i === currentQuestion) {
+          dot.classList.add('active');
+        }
+        container.appendChild(dot);
+      }
+    }
+
+    function displayQuestion() {
+      const question = questions[currentQuestion];
+      document.getElementById("questionTitle").textContent = question.question;
+
+      const codeCard = document.getElementById("codeCard");
+      if (question.code) {
+        codeCard.innerHTML = question.code;
+        codeCard.style.display = "block";
+      } else {
+        codeCard.style.display = "none";
+      }
+
+      const answersContainer = document.getElementById("answersContainer");
+      answersContainer.innerHTML = "";
+
+      question.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.className = "answer-btn";
+        button.textContent = answer;
+        button.onclick = () => checkAnswer(button, index);
+        answersContainer.appendChild(button);
+      });
+
+      document.getElementById("feedbackMessage").textContent = "";
+      document.getElementById("feedbackAnswer").textContent = "";
+      document.getElementById("nextBtn").style.display = "none";
+      answered = false;
+      createProgressDots();
+    }
+
+    function checkAnswer(button, selectedIndex) {
+      if (answered) return;
+
+      answered = true;
+      const question = questions[currentQuestion];
+      const buttons = document.querySelectorAll(".answer-btn");
+
+      buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === question.correct) {
+          btn.classList.add("correct");
+        } else if (btn === button && selectedIndex !== question.correct) {
+          btn.classList.add("incorrect");
+        }
+      });
+
+      const feedbackMessage = document.getElementById("feedbackMessage");
+      const feedbackAnswer = document.getElementById("feedbackAnswer");
+
+      if (selectedIndex === question.correct) {
+        feedbackMessage.textContent = "Amazing!";
+        feedbackMessage.className = "feedback-message correct";
+        feedbackAnswer.textContent = `Answer: ${question.explanation}`;
+        score++;
+      } else {
+        feedbackMessage.textContent = "Ups.. that's wrong";
+        feedbackMessage.className = "feedback-message incorrect";
+        feedbackAnswer.textContent = `Answer: ${question.explanation}`;
+      }
+
+      document.getElementById("nextBtn").style.display = "block";
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById("quizContent").style.display = "none";
+      document.getElementById("quizComplete").style.display = "block";
+      document.getElementById("finalScore").textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      answered = false;
+      document.getElementById("quizContent").style.display = "block";
+      document.getElementById("quizComplete").style.display = "none";
+      displayQuestion();
+    }
+
+    // Initialize quiz
+    displayQuestion();
+  </script>
+</body>
+
+</html>

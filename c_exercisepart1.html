@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Programming Quiz</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .quiz-container {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #f0f0f0;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        transition: width 0.3s ease;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #666;
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .close-btn:hover {
+        color: #333;
+      }
+
+      h1 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 30px;
+        font-weight: 600;
+      }
+
+      .code-block {
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: left;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        position: relative;
+      }
+
+      .code-block::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+        border-radius: 2px;
+      }
+
+      .code-line {
+        margin: 5px 0;
+      }
+
+      .keyword {
+        color: #0066cc;
+        font-weight: bold;
+      }
+
+      .string {
+        color: #cc0000;
+      }
+
+      .number {
+        color: #0066cc;
+      }
+
+      .answers-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .answer-btn {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .answer-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+      }
+
+      .answer-btn:active {
+        transform: translateY(0);
+      }
+
+      .answer-btn.correct {
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        animation: pulse 0.6s ease-in-out;
+      }
+
+      .answer-btn.incorrect {
+        background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        animation: shake 0.6s ease-in-out;
+      }
+
+      .answer-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.05);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+
+        25% {
+          transform: translateX(-5px);
+        }
+
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      .feedback {
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+      }
+
+      .feedback.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .feedback.success {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        color: #155724;
+        border: 2px solid #c3e6cb;
+      }
+
+      .feedback.error {
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+      }
+
+      .next-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 15px 40px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .next-btn.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .next-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .quiz-complete {
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .quiz-complete h2 {
+        color: #4caf50;
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .score {
+        font-size: 20px;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .restart-btn {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 15px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .restart-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+      }
+
+      .question-number {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(79, 172, 254, 0.1);
+        color: #4facfe;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="quiz-container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <button class="close-btn" onclick="closeQuiz()">&times;</button>
+
+      <div class="question-number" id="questionNumber">1/3</div>
+
+      <div id="quizContent">
+        <h1 id="questionTitle">What is the output of the program code?</h1>
+
+        <div class="code-block" id="codeBlock">
+          <div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;stdio.h&gt;</span></div>
+          <div class="code-line"></div>
+          <div class="code-line"><span class="keyword">int</span> <span class="keyword">main</span>() {</div>
+          <div class="code-line">&nbsp;&nbsp;<span class="keyword">printf</span>(<span class="string">"Hello World!"</span>);</div>
+          <div class="code-line">&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;</div>
+          <div class="code-line">}</div>
+        </div>
+
+        <div class="answers-grid" id="answersGrid">
+          <button class="answer-btn" onclick="checkAnswer(this, false)">int main</button>
+          <button class="answer-btn" onclick="checkAnswer(this, false)">0</button>
+          <button class="answer-btn" onclick="checkAnswer(this, false)">error</button>
+          <button class="answer-btn" onclick="checkAnswer(this, true)">Hello World!</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION</button>
+      </div>
+
+      <div id="quizComplete" class="quiz-complete" style="display: none">
+        <h2>Quiz Completed!</h2>
+        <div class="score" id="finalScore">Your Score: 0/3</div>
+        <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+        <button class="restart-btn" onclick="window.location.href='c_exercise.html'">Back to Exercise Page</button>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          title: "What is the output of the program code?",
+          code: `<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;stdio.h&gt;</span></div>
+                       <div class="code-line"></div>
+                       <div class="code-line"><span class="keyword">int</span> <span class="keyword">main</span>() {</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">printf</span>(<span class="string">"Hello World!"</span>);</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;</div>
+                       <div class="code-line">}</div>`,
+          answers: [
+            { text: "int main", correct: false },
+            { text: "0", correct: false },
+            { text: "error", correct: false },
+            { text: "Hello World!", correct: true },
+          ],
+        },
+        {
+          title: "What is the output of the program code?",
+          code: `<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;stdio.h&gt;</span></div>
+                       <div class="code-line"></div>
+                       <div class="code-line"><span class="keyword">int</span> <span class="keyword">main</span>() {</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">int</span> x = <span class="number">5</span> + <span class="number">3</span>;</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">printf</span>(<span class="string">"%d"</span>, x);</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;</div>
+                       <div class="code-line">}</div>`,
+          answers: [
+            { text: "5", correct: false },
+            { text: "8", correct: true },
+            { text: "3", correct: false },
+            { text: "error", correct: false },
+          ],
+        },
+        {
+          title: "What is the output of the program code?",
+          code: `<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;stdio.h&gt;</span></div>
+                       <div class="code-line"></div>
+                       <div class="code-line"><span class="keyword">int</span> <span class="keyword">main</span>() {</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) {</div>
+                       <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">printf</span>(<span class="string">"%d "</span>, i);</div>
+                       <div class="code-line">&nbsp;&nbsp;}</div>
+                       <div class="code-line">&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;</div>
+                       <div class="code-line">}</div>`,
+          answers: [
+            { text: "1 2 3", correct: false },
+            { text: "0 1 2", correct: true },
+            { text: "0 1 2 3", correct: false },
+            { text: "error", correct: false },
+          ],
+        },
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+      let answered = false;
+
+      function updateProgress() {
+        const progress = ((currentQuestion + 1) / questions.length) * 100;
+        document.getElementById("progressFill").style.width = progress + "%";
+      }
+
+      function updateQuestionNumber() {
+        document.getElementById("questionNumber").textContent = `${currentQuestion + 1}/${questions.length}`;
+      }
+
+      function loadQuestion() {
+        const question = questions[currentQuestion];
+
+        document.getElementById("questionTitle").textContent = question.title;
+        document.getElementById("codeBlock").innerHTML = question.code;
+
+        const answersGrid = document.getElementById("answersGrid");
+        answersGrid.innerHTML = "";
+
+        question.answers.forEach((answer, index) => {
+          const button = document.createElement("button");
+          button.className = "answer-btn";
+          button.textContent = answer.text;
+          button.onclick = () => checkAnswer(button, answer.correct);
+          answersGrid.appendChild(button);
+        });
+
+        // Reset feedback and next button
+        const feedback = document.getElementById("feedback");
+        const nextBtn = document.getElementById("nextBtn");
+        feedback.classList.remove("show", "success", "error");
+        nextBtn.classList.remove("show");
+        answered = false;
+
+        updateProgress();
+        updateQuestionNumber();
+      }
+
+      function checkAnswer(button, isCorrect) {
+        if (answered) return;
+
+        answered = true;
+        const buttons = document.querySelectorAll(".answer-btn");
+        buttons.forEach((btn) => (btn.disabled = true));
+
+        const feedback = document.getElementById("feedback");
+        const nextBtn = document.getElementById("nextBtn");
+
+        if (isCorrect) {
+          button.classList.add("correct");
+          feedback.textContent = "Amazing!";
+          feedback.className = "feedback success show";
+          score++;
+        } else {
+          button.classList.add("incorrect");
+          feedback.textContent = "Ups.. that's wrong";
+          feedback.className = "feedback error show";
+
+          // Highlight correct answer
+          const question = questions[currentQuestion];
+          buttons.forEach((btn, index) => {
+            if (question.answers[index].correct) {
+              setTimeout(() => {
+                btn.classList.add("correct");
+              }, 300);
+            }
+          });
+        }
+
+        setTimeout(() => {
+          nextBtn.classList.add("show");
+        }, 500);
+      }
+
+      function nextQuestion() {
+        currentQuestion++;
+
+        if (currentQuestion >= questions.length) {
+          showResults();
+        } else {
+          loadQuestion();
+        }
+      }
+
+      function showResults() {
+        document.getElementById("quizContent").style.display = "none";
+        document.getElementById("quizComplete").style.display = "block";
+        document.getElementById("finalScore").textContent = `Your Score: ${score}/${questions.length}`;
+
+        // Update progress to 100%
+        document.getElementById("progressFill").style.width = "100%";
+      }
+
+      function restartQuiz() {
+        currentQuestion = 0;
+        score = 0;
+        document.getElementById("quizContent").style.display = "block";
+        document.getElementById("quizComplete").style.display = "none";
+        loadQuestion();
+      }
+
+      function closeQuiz() {
+        if (confirm("Are you sure you want to close the quiz?")) {
+          // In a real application, this would navigate away or close the window
+          alert("Quiz closed. Thank you for participating!");
+        }
+      }
+
+      // Initialize the quiz
+      loadQuestion();
+    </script>
+  </body>
+</html>
